@@ -11,6 +11,7 @@ export const getMonitors = async () => {
 };
 
 export const createMonitor = async (newMonitor) => {
-  const { data } = await axios.post(BASE_URL + CREATE_MONITOR, { ...newMonitor });
+  console.log(newMonitor)
+  const { data } = await axios.post(BASE_URL + CREATE_MONITOR, newMonitor);
   return data;
 };
