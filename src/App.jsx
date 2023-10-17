@@ -18,7 +18,6 @@ const App = () => {
     const fetchMonitors = async () => {
       try {
         const data = await getMonitors();
-        console.log(data)
         setMonitors(data);
       } catch (error) {
         console.log(error);

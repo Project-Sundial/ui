@@ -2,7 +2,6 @@ import {Box, List} from '@mui/material';
 import { Monitor } from './Monitor';
 
 const MonitorsList = ({ monitors }) => {
-  console.log(monitors, 'from list')
   return (
     <div>
       <h1>Monitors</h1>

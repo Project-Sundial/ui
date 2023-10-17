@@ -2,7 +2,6 @@ import { ListItem, ListItemButton, ListItemText, Typography } from '@mui/materia
 import generateCurl from '../utils/generateCurl';
 
 export const Monitor = ({ monitor, count }) => {
-  console.log(count)
   return (
     <div>
       <ListItem disablePadding>
