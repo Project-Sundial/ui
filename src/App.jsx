@@ -34,8 +34,9 @@ const App = () => {
 
   const onClickSubmitNewMonitor = async (monitorData) => {
     try { 
-      const data = await createMonitor(monitorData);
-      const wrapper = generateCurl(data.endpoint_key);
+      // const data = await createMonitor(monitorData);
+      // const wrapper = generateCurl(data.endpoint_key);
+      const wrapper = 'hey'
       setWrapper(wrapper);
       setDisplayString(true);
     } catch (error) {

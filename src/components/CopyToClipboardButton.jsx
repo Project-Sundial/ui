@@ -18,7 +18,7 @@ const CopyToClipboardButton = ({ wrapper, handleCopy }) => {
           setOpen(false);
           handleCopy();
         }}
-        autoHideDuration={1000}
+        autoHideDuration={500}
         message="Copied to clipboard"
       />
     </>
