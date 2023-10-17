@@ -4,10 +4,13 @@ import { createMonitor, getMonitors } from './services/monitors';
 import MonitorsList from './components/MonitorsList';
 import Header from './components/Header';
 import AddMonitorForm from './components/AddMonitorForm';
+import StringPopover from './components/WrapperPopover';
 
 const App = () => {
   const [monitors, setMonitors] = useState([]);
   const [displayAddForm, setDisplayAddForm] = useState(false);
+  const [displayString, setDisplayString] = useState(false);
+  const [wrapper, setWrapper] = useState('');
 
   useEffect(() => {
     const fetchMonitors = async () => {
@@ -29,19 +32,32 @@ const App = () => {
 
   const onClickSubmitNewMonitor = async (monitorData) => {
     try { 
-      await createMonitor(monitorData);
-      setDisplayAddForm(false);
+      const data = await createMonitor(monitorData);
+      setWrapper("this will  be the wrapper");
+      setDisplayString(true);
     } catch (error) {
       alert(JSON.stringify(error.response.data.error));
       console.log(error.response.data);
     }
   }
 
+  const onCopyPopover = () => {
+    setDisplayString(false);
+    setWrapper('');
+    setDisplayAddForm(false);
+  }
+
+  const onCancelPopover = () => {
+    setDisplayString(false);
+    setWrapper('');
+  }
+
   return (
     <div>
       <Header />
       {displayAddForm ? <AddMonitorForm handleSubmitForm={onClickSubmitNewMonitor}/> : <MonitorsList monitors={monitors}/> }
-      {displayAddForm ? null : <Button variant="contained" onClick={onClickNewMonitorButton}>Add Monitor</Button> }
+      {displayAddForm ? null : <Button open={displayAddForm} variant="contained" onClick={onClickNewMonitorButton}>Add Monitor</Button> }
+      <StringPopover wrapper={wrapper} open={displayString} handleCancel={onCancelPopover} handleCopy={onCopyPopover}/>
     </div>
   );
 }

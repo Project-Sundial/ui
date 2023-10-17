@@ -9,9 +9,13 @@ const AddMonitorForm = ({ handleSubmitForm }) => {
 
   const onClickSubmitForm = (e) => {
     e.preventDefault();
+    if (!schedule) {
+      alert("Must have a schedule.");
+      return;
+    }
 
     const monitorData = {
-      schedule: schedule || undefined,
+      schedule: schedule,
       name: name || undefined,
       command: command || undefined,
       grace_period: notifyTime || undefined,
