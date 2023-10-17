@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { createMonitor, getMonitors } from './services/monitors';
 import MonitorsList from './components/MonitorsList';
 import Header from './components/Header';
 import AddMonitorForm from './components/AddMonitorForm';
 import StringPopover from './components/WrapperPopover';
+import generateCurl from './utils/generateCurl';
+
 
 const App = () => {
   const [monitors, setMonitors] = useState([]);
@@ -33,7 +35,8 @@ const App = () => {
   const onClickSubmitNewMonitor = async (monitorData) => {
     try { 
       const data = await createMonitor(monitorData);
-      setWrapper("this will  be the wrapper");
+      const wrapper = generateCurl(data.endpoint_key);
+      setWrapper(wrapper);
       setDisplayString(true);
     } catch (error) {
       alert(JSON.stringify(error.response.data.error));
@@ -55,9 +58,24 @@ const App = () => {
   return (
     <div>
       <Header />
-      {displayAddForm ? <AddMonitorForm handleSubmitForm={onClickSubmitNewMonitor}/> : <MonitorsList monitors={monitors}/> }
-      {displayAddForm ? null : <Button open={displayAddForm} variant="contained" onClick={onClickNewMonitorButton}>Add Monitor</Button> }
-      <StringPopover wrapper={wrapper} open={displayString} handleCancel={onCancelPopover} handleCopy={onCopyPopover}/>
+      {displayAddForm ? 
+        null : 
+        <Box display="flex" justifyContent="center" mt={2}>
+          <Button 
+            open={displayAddForm} 
+            variant="contained" 
+            onClick={onClickNewMonitorButton}>Add Monitor
+          </Button> 
+        </Box>}
+      {displayAddForm ? 
+        <AddMonitorForm handleSubmitForm={onClickSubmitNewMonitor}/> : 
+        <MonitorsList monitors={monitors}/> }
+      <StringPopover 
+        wrapper={wrapper} 
+        open={displayString} 
+        handleCancel={onCancelPopover} 
+        handleCopy={onCopyPopover}
+      />
     </div>
   );
 }

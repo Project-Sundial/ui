@@ -2,13 +2,14 @@ import {Box, List} from '@mui/material';
 import { Monitor } from './Monitor';
 
 const MonitorsList = ({ monitors }) => {
+  console.log(monitors, 'from list')
   return (
     <div>
-      <h3>Monitors</h3>
+      <h1>Monitors</h1>
       <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         <nav aria-label="main mailbox folders">
           <List>
-              {monitors.map(monitor => <Monitor key={monitor.id} monitor={monitor}/>)}
+              {monitors.map((monitor, ind) => <Monitor key={monitor.id} monitor={monitor} count={ind + 1}/>)}
           </List>
         </nav>
       </Box>
