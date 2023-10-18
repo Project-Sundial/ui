@@ -1,5 +1,6 @@
 import { ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import generateCurl from '../utils/generateCurl';
+import nextRun from '../utils/nextRun';
 
 export const Monitor = ({ monitor, count }) => {
   const sx = monitor.failing ?
@@ -17,8 +18,8 @@ export const Monitor = ({ monitor, count }) => {
                 <Typography variant="subtitle1">Name: {monitor.name}</Typography>
                 <Typography variant="subtitle1">Wrapper: {generateCurl(monitor)}</Typography>
                 <Typography variant="subtitle1">Schedule: {monitor.schedule}</Typography>
-                <Typography variant="subtitle1">Next Expected At: {monitor.next_expected_at}</Typography>
-                <Typography variant="subtitle1">Failed: {monitor.failed}</Typography>
+                <Typography variant="subtitle1">Next Expected At: {nextRun(monitor.schedule)}</Typography>
+                <Typography variant="subtitle1">Status: {monitor.failing ? 'Failed' : 'Running'}</Typography>
               </div>
             }
             primary={`Monitor #${count}`}
