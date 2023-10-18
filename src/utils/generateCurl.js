@@ -1,8 +1,11 @@
-const generateCurl = (monitor) => {
-  const { schedule, command, endpoint_key} = monitor;
+import { BASE_URL, CREATE_PING } from "../constants/routes";
 
-  return schedule + ' ' + command +
-    ` && curl <SERVER URL>/pings/${endpoint_key}`;
+const generateCurl = (monitor) => {
+  const command = monitor.command ? 
+    monitor.command : '<COMMAND>';
+
+  return `${monitor.schedule} ${command} ` +
+    `&& curl ${BASE_URL + CREATE_PING + '/' + monitor.endpoint_key}`;
 };
 
 export default generateCurl;
