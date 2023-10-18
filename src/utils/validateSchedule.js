@@ -1,9 +1,9 @@
-const {parse} = require('@datasert/cronjs-parser') ;
+const parser = require('cron-parser') ;
 
 const scheduleParser = (scheduleStr) => {
   let returnObj = {valid: null, error:null};
   try {
-    parse(scheduleStr);
+    parser.parseExpression(scheduleStr);
     returnObj.valid = true;
     return returnObj;
   } catch (err) {
