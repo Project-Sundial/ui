@@ -1,6 +1,6 @@
 const generateCurl = (endpoint_key) => {
-  return `curl <SERVER URL>/endpoint/${endpoint_key} ; <COMMAND> ` +
-    `&& curl <SERVER URL>/endpoint/${endpoint_key}`;
+  return `<COMMAND> ` +
+    `&& curl <SERVER URL>/pings/${endpoint_key}`;
 };
 
 export default generateCurl;
