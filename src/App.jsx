@@ -4,7 +4,7 @@ import { createMonitor, getMonitors } from './services/monitors';
 import MonitorsList from './components/MonitorsList';
 import Header from './components/Header';
 import AddMonitorForm from './components/AddMonitorForm';
-import StringPopover from './components/WrapperPopover';
+import WrapperPopover from './components/WrapperPopover';
 import generateCurl from './utils/generateCurl';
 
 
@@ -33,9 +33,9 @@ const App = () => {
 
   const onClickSubmitNewMonitor = async (monitorData) => {
     try { 
-      // const data = await createMonitor(monitorData);
-      // const wrapper = generateCurl(data.endpoint_key);
-      const wrapper = 'hey'
+      const newMonitor = await createMonitor(monitorData);
+      const wrapper = generateCurl(newMonitor);
+      setMonitors(monitors.concat(newMonitor))
       setWrapper(wrapper);
       setDisplayString(true);
     } catch (error) {
@@ -44,15 +44,14 @@ const App = () => {
     }
   }
 
-  const onCopyPopover = () => {
+  const onClosePopover = () => {
     setDisplayString(false);
     setWrapper('');
     setDisplayAddForm(false);
   }
 
-  const onCancelPopover = () => {
-    setDisplayString(false);
-    setWrapper('');
+  const onClickBackButton = () => {
+    setDisplayAddForm(false);
   }
 
   return (
@@ -60,7 +59,7 @@ const App = () => {
       <Header />
       {displayAddForm ? 
         null : 
-        <Box display="flex" justifyContent="center" mt={2}>
+        <Box display="flex" justifyContent="left" mt={2}>
           <Button 
             open={displayAddForm} 
             variant="contained" 
@@ -68,13 +67,14 @@ const App = () => {
           </Button> 
         </Box>}
       {displayAddForm ? 
-        <AddMonitorForm handleSubmitForm={onClickSubmitNewMonitor}/> : 
+        <AddMonitorForm 
+          handleSubmitForm={onClickSubmitNewMonitor}
+          handleBack={onClickBackButton}/> : 
         <MonitorsList monitors={monitors}/> }
-      <StringPopover 
+      <WrapperPopover 
         wrapper={wrapper} 
         open={displayString} 
-        handleCancel={onCancelPopover} 
-        handleCopy={onCopyPopover}
+        handleClose={onClosePopover}
       />
     </div>
   );
