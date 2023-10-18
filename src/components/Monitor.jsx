@@ -2,9 +2,13 @@ import { ListItem, ListItemButton, ListItemText, Typography } from '@mui/materia
 import generateCurl from '../utils/generateCurl';
 
 export const Monitor = ({ monitor, count }) => {
+  const sx = monitor.failing ?
+    { bgcolor: "red" } :
+    null;
+
   return (
     <div>
-      <ListItem disablePadding>
+      <ListItem disablePadding sx={sx}>
         <ListItemButton>
           <ListItemText 
             primaryTypographyProps={{ variant: 'h5', fontWeight: 'bold' }}
