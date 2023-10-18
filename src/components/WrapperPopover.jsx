@@ -1,12 +1,12 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material'; 
 import CopyToClipboardButton from './CopyToClipboardButton.jsx';
 
-const WrapperPopover = ({ wrapper, open, handleCancel, handleCopy }) => {
+const WrapperPopover = ({ wrapper, open, handleClose }) => {
   return ( 
     <div>
       <Dialog
         open={open}
-        onClose={handleCancel}
+        onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -19,8 +19,8 @@ const WrapperPopover = ({ wrapper, open, handleCancel, handleCopy }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <CopyToClipboardButton wrapper={wrapper} handleCopy={handleCopy} autoFocus/>
+          <Button onClick={handleClose}>Close</Button>
+          <CopyToClipboardButton wrapper={wrapper} handleClose={handleClose} autoFocus/>
         </DialogActions>
       </Dialog>
     </div>
