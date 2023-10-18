@@ -11,7 +11,7 @@ const WrapperPopover = ({ wrapper, open, handleClose }) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Paste the below text after your cron job in your crontab file:"}
+          {"Replace your cronjob with the below text in your crontab file:"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
