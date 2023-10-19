@@ -49,8 +49,9 @@ const AddMonitorForm = ({ handleSubmitForm, handleBack, addErrorMessage }) => {
           <TextField
             required
             id="outlined-required"
-            label="Schedule Required"
+            label="Schedule (required)"
             helperText="The cron schedule string."
+            placeholder="* * * * *"
             value={schedule}
             onChange={(e) => { setSchedule(e.target.value)}}
           />
@@ -58,19 +59,22 @@ const AddMonitorForm = ({ handleSubmitForm, handleBack, addErrorMessage }) => {
             id="outlined-basic"
             label="Name"
             value={name}
+            placeholder='Test Job'
             onChange={(e) => setMonitorName(e.target.value)}
           />
           <TextField
             id="outlined-basic"
             label="Command"
             value={command}
+            placeholder='test-job.sh'
             onChange={(e) => setCommand(e.target.value)}
           />
           <TextField
             id="outlined-basic"
-            label='Time to Notify'
-            helperText="The amount of time you expect your job to take."
+            label='Grace Period (s)'
+            helperText="Amount of time in which a completed notification can still be sent out before the job is considered failed"
             value={notifyTime}
+            placeholder='0'
             onChange={(e) => setNotifyTime(e.target.value)}
           />
           <Box
