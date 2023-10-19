@@ -1,18 +1,34 @@
 import { useState, useEffect } from 'react';
+import useTemporaryMessages from './hooks/useTemporaryMessages';
 import { Button, Box } from '@mui/material';
 import { createMonitor, getMonitors } from './services/monitors';
 import MonitorsList from './components/MonitorsList';
 import Header from './components/Header';
 import AddMonitorForm from './components/AddMonitorForm';
 import WrapperPopover from './components/WrapperPopover';
+import PaddedAlert from './components/PaddedAlert';
 import generateCurl from './utils/generateCurl';
-
 
 const App = () => {
   const [monitors, setMonitors] = useState([]);
   const [displayAddForm, setDisplayAddForm] = useState(false);
   const [displayString, setDisplayString] = useState(false);
   const [wrapper, setWrapper] = useState('');
+  const [errorMessages, addErrorMessage] = useTemporaryMessages(3000);
+  const [successMessages, addSuccessMessage] = useTemporaryMessages(3000);
+
+  const handleAxiosError = (error) => {
+    console.log(error);
+
+    let message = 'Something went wrong: ';
+    if (error.response) {
+      message += error.response.data.message;
+    } else {
+      message += error.message;
+    }
+
+    addErrorMessage(message);
+  }
 
   useEffect(() => {
     const fetchMonitors = async () => {
@@ -20,7 +36,7 @@ const App = () => {
         const data = await getMonitors();
         setMonitors(data);
       } catch (error) {
-        console.log(error);
+        handleAxiosError(error);
       }
     };
 
@@ -38,9 +54,9 @@ const App = () => {
       setMonitors(monitors.concat(newMonitor))
       setWrapper(wrapper);
       setDisplayString(true);
+      addSuccessMessage('Monitor created successfully');
     } catch (error) {
-      alert(JSON.stringify(error.response.data.error));
-      console.log(error.response.data);
+      handleAxiosError(error);
     }
   }
 
@@ -57,6 +73,12 @@ const App = () => {
   return (
     <div>
       <Header />
+      {Object.keys(successMessages).map(message => 
+        <PaddedAlert key={message} severity="success" message={message} />
+      )}
+      {Object.keys(errorMessages).map(message =>
+        <PaddedAlert key={message} severity="error" message={message} />
+      )}
       {displayAddForm ? 
         null : 
         <Box display="flex" justifyContent="left" mt={2}>
@@ -69,7 +91,8 @@ const App = () => {
       {displayAddForm ? 
         <AddMonitorForm 
           handleSubmitForm={onClickSubmitNewMonitor}
-          handleBack={onClickBackButton}/> : 
+          handleBack={onClickBackButton}
+          addErrorMessage={addErrorMessage}/> : 
         <MonitorsList monitors={monitors}/> }
       <WrapperPopover 
         wrapper={wrapper} 

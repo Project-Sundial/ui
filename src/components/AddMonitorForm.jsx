@@ -2,7 +2,7 @@ import { Box, FormControl, FormLabel, TextField, Button } from '@mui/material';
 import { useState } from 'react';
 import {scheduleParser} from '../utils/validateSchedule';
 
-const AddMonitorForm = ({ handleSubmitForm, handleBack }) => {
+const AddMonitorForm = ({ handleSubmitForm, handleBack, addErrorMessage }) => {
   const [schedule, setSchedule] = useState('');
   const [name, setMonitorName] = useState('');
   const [command, setCommand] = useState('');
@@ -11,13 +11,13 @@ const AddMonitorForm = ({ handleSubmitForm, handleBack }) => {
   const onClickSubmitForm = (e) => {
     e.preventDefault();
     if (!schedule) {
-      alert("Must have a schedule.");
+      addErrorMessage("Must have a schedule.");
       return;
     }
     const parsedSchedule = scheduleParser(schedule);
 
     if (!parsedSchedule.valid) {
-      alert(parsedSchedule.error);
+      addErrorMessage(parsedSchedule.error);
       return;
     }
 
@@ -86,6 +86,5 @@ const AddMonitorForm = ({ handleSubmitForm, handleBack }) => {
     </>
   )
 }
- 
 
 export default AddMonitorForm;
