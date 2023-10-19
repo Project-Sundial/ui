@@ -72,7 +72,6 @@ const AddMonitorForm = ({ handleSubmitForm, handleBack, addErrorMessage }) => {
           <TextField
             id="outlined-basic"
             label='Grace Period (s)'
-            helperText="Amount of time in which a completed notification can still be sent out before the job is considered failed"
             value={notifyTime}
             placeholder='0'
             onChange={(e) => setNotifyTime(e.target.value)}
