@@ -72,13 +72,13 @@ const App = () => {
 
   return (
     <div>
-      {Object.keys(errorMessages).map(message =>
-        <PaddedAlert key={message} severity="error" message={message} />
-      )}
+      <Header />
       {Object.keys(successMessages).map(message => 
         <PaddedAlert key={message} severity="success" message={message} />
       )}
-      <Header />
+      {Object.keys(errorMessages).map(message =>
+        <PaddedAlert key={message} severity="error" message={message} />
+      )}
       {displayAddForm ? 
         null : 
         <Box display="flex" justifyContent="left" mt={2}>
