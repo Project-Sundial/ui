@@ -17,14 +17,26 @@ const App = () => {
   const [errorMessages, addErrorMessage] = useTemporaryMessages(3000);
   const [successMessages, addSuccessMessage] = useTemporaryMessages(3000);
 
+  const handleAxiosError = (error) => {
+    console.log(error);
+
+    let message = 'Something went wrong: ';
+    if (error.response) {
+      message += error.response.data.message;
+    } else {
+      message += error.message;
+    }
+
+    addErrorMessage(message);
+  }
+
   useEffect(() => {
     const fetchMonitors = async () => {
       try {
         const data = await getMonitors();
         setMonitors(data);
       } catch (error) {
-        console.log(error);
-        addErrorMessage(error.message);
+        handleAxiosError(error);
       }
     };
 
@@ -44,9 +56,7 @@ const App = () => {
       setDisplayString(true);
       addSuccessMessage('Monitor created successfully');
     } catch (error) {
-      addErrorMessage(error.response.data.error);
-      alert(JSON.stringify(error.response.data.error));
-      console.log(error.response.data);
+      handleAxiosError(error);
     }
   }
 
