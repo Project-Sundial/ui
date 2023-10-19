@@ -14,8 +14,8 @@ const App = () => {
   const [displayAddForm, setDisplayAddForm] = useState(false);
   const [displayString, setDisplayString] = useState(false);
   const [wrapper, setWrapper] = useState('');
-  const [errorMessages, addErrorMessage] = useTemporaryMessages();
-  const [successMessages, addSuccessMessage] = useTemporaryMessages();
+  const [errorMessages, addErrorMessage] = useTemporaryMessages(3000);
+  const [successMessages, addSuccessMessage] = useTemporaryMessages(3000);
 
   useEffect(() => {
     const fetchMonitors = async () => {
@@ -23,6 +23,7 @@ const App = () => {
         const data = await getMonitors();
         setMonitors(data);
       } catch (error) {
+        console.log(error);
         addErrorMessage(error.message);
       }
     };

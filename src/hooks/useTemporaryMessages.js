@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useTemporaryMessages = () => {
+const useTemporaryMessages = (lifeTime) => {
   const [messages, setMessages] = useState({});
 
   const addMessage = (message) => {
@@ -15,7 +15,7 @@ const useTemporaryMessages = () => {
         delete copy[message];
         return copy;
       });
-    }, 3000);
+    }, lifeTime);
 
     setMessages(prevMessages => Object.assign(
       {}, 
