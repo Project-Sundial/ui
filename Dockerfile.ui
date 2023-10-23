@@ -1,55 +1,41 @@
-# Use an official Node.js runtime as the base image
+# Dev config
+FROM node:lts as builder
 
-ARG NODE_VERSION=20.2.0
-# FROM node:${NODE_VERSION}-alpine as base
+WORKDIR /app
 
-# WORKDIR /usr/src/app
+EXPOSE 3000
 
-# EXPOSE 3000
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=package-lock.json,target=package-lock.json \
+    --mount=type=cache,target=/root/.npm \
+    npm ci --include=dev
 
-# FROM base as prod
-# ENV NODE_ENV production
+COPY . .
 
-# RUN --mount=type=bind,source=package.json,target=package.json \
-#     --mount=type=bind,source=package-lock.json,target=package-lock.json \
-#     --mount=type=cache,target=/root/.npm \
-#     npm ci --omit=dev
+CMD npm start
+
+# Prod config
+# ARG NODE_VERSION=20.2.0
+
+# FROM node:${NODE_VERSION}-alpine as builder
+
+# WORKDIR /app
+
+# COPY package.json package.json
+# COPY package-lock.json package-lock.json
+
+# RUN npm install --production
 
 # COPY . .
 
-# CMD npm start
+# RUN npm run build
 
-# Name the node stage "builder"
-FROM node:${NODE_VERSION}-alpine as builder
+# FROM nginx:alpine
 
-# Set working directory
-WORKDIR /app
+# WORKDIR /usr/share/nginx/html
 
-# Copy our node module specification
-COPY package.json package.json
-COPY package-lock.json package-lock.json
+# RUN rm -rf *
 
-# install node modules and build assets
-RUN npm install --production
+# COPY --from=builder /app/build .
 
-# Copy all files from current directory to working dir in image
-# Except the one defined in '.dockerignore'
-COPY . .
-
-# Create production build of React App
-RUN npm run build
-
-# Choose NGINX as our base Docker image
-FROM nginx:alpine
-
-# Set working directory to nginx asset directory
-WORKDIR /usr/share/nginx/html
-
-# Remove default nginx static assets
-RUN rm -rf *
-
-# Copy static assets from builder stage
-COPY --from=builder /app/build .
-
-# Entry point when Docker container has started
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+# ENTRYPOINT ["nginx", "-g", "daemon off;"]
