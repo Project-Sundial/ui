@@ -6,6 +6,7 @@ import {
 } from "../constants/routes";
 
 export const getMonitors = async () => {
+  console.log(BASE_URL)
   const { data } = await axios.get(BASE_URL + GET_MONITORS);
   return data;
 };
