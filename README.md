@@ -1,5 +1,5 @@
 # Sundial UI
 
-### Installation
-Clone the package into a local repository and run `$ npm install`.
-Launch the app with `$ npm start`.
+This repo was part of an older version of Sundial. For the current version, please visit https://github.com/Project-Sundial/monitoring-service.
+
+This repo is now **archived**.
